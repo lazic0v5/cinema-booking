@@ -1,44 +1,61 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { movies } from '../data/movies';  // Імпортуємо масив фільмів для доступу до назви
+import { movies } from '../data/movies';
 
 const Booking = () => {
-  const { id } = useParams(); // Отримуємо id фільму з параметрів URL
-  const movie = movies.find(movie => movie.id === parseInt(id)); // Знаходимо фільм за id
+  const { id } = useParams();
+  const movie = movies.find(movie => movie.id === parseInt(id));
 
   const [seats, setSeats] = useState([]);
 
   useEffect(() => {
-    if (movie) {
-      // Генерація місць для кінозалу
-      const totalSeats = 50; // Загальна кількість місць
-      const occupiedSeats = Math.floor(Math.random() * 20); // Кількість зайнятих місць (від 0 до 20)
+    const rows = 10;
+    const columns = 18;
+    const allSeats = [];
 
-      const newSeats = [];
-      for (let i = 0; i < totalSeats; i++) {
-        newSeats.push({
-          id: i,
-          occupied: i < occupiedSeats, // Місце зайняте, якщо i менше за occupiedSeats
+    for (let row = 0; row < rows; row++) {
+      let rowSeats = [];
+      for (let col = 0; col < columns; col++) {
+        rowSeats.push({
+          id: `${row}-${col}`,
+          status: 'free'
         });
       }
-      setSeats(newSeats);
+      allSeats.push(rowSeats);
     }
-  }, [movie]);
+
+    const totalSeats = rows * columns;
+    const occupiedCount = Math.floor(Math.random() * (totalSeats / 2));
+    const occupiedSeats = new Set();
+    while (occupiedSeats.size < occupiedCount) {
+      const randomIndex = Math.floor(Math.random() * totalSeats);
+      const row = Math.floor(randomIndex / columns);
+      const col = randomIndex % columns;
+      occupiedSeats.add(`${row}-${col}`);
+    }
+
+    allSeats.forEach((rowSeats, rowIndex) => {
+      rowSeats.forEach((seat, colIndex) => {
+        if (occupiedSeats.has(`${rowIndex}-${colIndex}`)) {
+          seat.status = 'occupied';
+        }
+      });
+    });
+
+    setSeats(allSeats);
+  }, [id]);
 
   return (
     <div>
       <h2>Кінозал для фільму: {movie ? movie.title : 'Невідомий фільм'}</h2>
-      
-      {/* Кнопка назад */}
       <Link to="/" className="back-button">Назад до вибору фільму</Link>
-      
-      {/* Сітка місць */}
       <div className="seats-grid">
-        {seats.map((seat) => (
+        {seats.flat().map((seat) => (
           <div
             key={seat.id}
-            className={`seat ${seat.occupied ? 'occupied' : 'available'}`}
-          />
+            className={`seat ${seat.status}`}
+            data-tip={`Ряд ${parseInt(seat.id.split('-')[0]) + 1} Місце ${parseInt(seat.id.split('-')[1]) + 1}`}
+          ></div>
         ))}
       </div>
     </div>
