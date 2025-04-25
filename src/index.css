@@ -161,3 +161,12 @@ h1 {
   visibility: visible;
   opacity: 1;
 }
+
+.seat.selected {
+  background-color: #2196f3; /* Синій колір для вибраних місць */
+}
+
+.seat.selected:hover {
+  background-color: #1976d2; /* Темніший відтінок синього при наведенні */
+}
+

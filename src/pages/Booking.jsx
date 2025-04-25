@@ -5,8 +5,9 @@ import { movies } from '../data/movies';
 const Booking = () => {
   const { id } = useParams();
   const movie = movies.find(movie => movie.id === parseInt(id));
-
+  
   const [seats, setSeats] = useState([]);
+  const [selectedSeats, setSelectedSeats] = useState([]); // Стан для вибраних місць
 
   useEffect(() => {
     const rows = 10;
@@ -45,6 +46,34 @@ const Booking = () => {
     setSeats(allSeats);
   }, [id]);
 
+  // Обробник для натискання на місце
+  const handleSeatClick = (seatId) => {
+    // Перевіряємо, чи місце вільне
+    const updatedSeats = seats.map(rowSeats => 
+      rowSeats.map(seat => 
+        seat.id === seatId && seat.status === 'free' 
+          ? { ...seat, status: 'selected' }  // Якщо місце вільне, виділяємо його
+          : seat
+      )
+    );
+    setSeats(updatedSeats);
+
+    // Додаємо або видаляємо місце з вибраних
+    setSelectedSeats(prevSelected => {
+      if (prevSelected.includes(seatId)) {
+        return prevSelected.filter(id => id !== seatId); // Якщо вже вибрано, забираємо
+      } else {
+        return [...prevSelected, seatId]; // Якщо не вибрано, додаємо
+      }
+    });
+  };
+
+  // Функція для показу кнопки "Купити"
+  const handleBuyClick = () => {
+    alert(`Ви забронювали місця: ${selectedSeats.join(', ')}`);
+    // Тут ми можемо реалізувати збереження в LocalStorage або Firebase
+  };
+
   return (
     <div>
       <h2>Кінозал для фільму: {movie ? movie.title : 'Невідомий фільм'}</h2>
@@ -54,10 +83,17 @@ const Booking = () => {
           <div
             key={seat.id}
             className={`seat ${seat.status}`}
-            data-tip={`Ряд ${parseInt(seat.id.split('-')[0]) + 1} Місце ${parseInt(seat.id.split('-')[1]) + 1}`}
+            onClick={() => handleSeatClick(seat.id)} // Додаємо обробник натискання
           ></div>
         ))}
       </div>
+
+      {/* Кнопка для підтвердження бронювання */}
+      {selectedSeats.length > 0 && (
+        <button className="book-button" onClick={handleBuyClick}>
+          Купити
+        </button>
+      )}
     </div>
   );
 };
