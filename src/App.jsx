@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import './index.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { movies } from './data/movies';
-import MovieList from './components/MovieList';
-import Home from './pages/Home';  // Це має бути default імпорт, якщо Home.jsx експортовано за допомогою default
-import Booking from './pages/Booking';  // Те саме для Booking
+import Home from './pages/Home';
+import Booking from './pages/Booking';
 
 function App() {
   const [search, setSearch] = useState('');
