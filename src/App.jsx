@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import './index.css';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { movies } from './data/movies';
 import MovieList from './components/MovieList';
+import Home from './pages/Home';  // Це має бути default імпорт, якщо Home.jsx експортовано за допомогою default
+import Booking from './pages/Booking';  // Те саме для Booking
 
 function App() {
   const [search, setSearch] = useState('');
@@ -11,17 +14,24 @@ function App() {
   );
 
   return (
-    <div className="app">
-      <h1>Кіносеанси</h1>
-      <input
-        type="text"
-        placeholder="Пошук фільму..."
-        value={search}
-        onChange={e => setSearch(e.target.value)}
-        className="search-input"
-      />
-      <MovieList movies={filteredMovies} />
-    </div>
+    <Router>
+      <div className="app">
+        <h1>Кіносеанси</h1>
+        <input
+          type="text"
+          placeholder="Пошук фільму..."
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+          className="search-input"
+        />
+
+        {/* Маршрутизація */}
+        <Routes>
+          <Route path="/" element={<Home movies={filteredMovies} />} />
+          <Route path="/booking/:id" element={<Booking />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
