@@ -170,3 +170,83 @@ h1 {
   background-color: #1976d2; /* Темніший відтінок синього при наведенні */
 }
 
+/* Стилі для модального вікна */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7); /* Трохи темніший фон для кращого контрасту */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Щоб модальне вікно було на передньому плані */
+}
+
+/* Стилі для вмісту модального вікна */
+.modal-content {
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+  width: 400px; /* Зроблено ширше для зручності */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Легка тінь для кращого вигляду */
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Відстань між елементами */
+}
+
+/* Стилі для заголовка у модальному вікні */
+.modal-content h3 {
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+/* Стилі для кнопок у модальному вікні (оранжевий колір) */
+.modal button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #f68e1f; /* Оранжевий колір */
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.modal button:hover {
+  background-color: #d56e17; /* Темніший оранжевий при наведенні */
+}
+
+/* Стилі для кнопок на сайті (всі кнопки оранжеві) */
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #f68e1f; /* Оранжевий колір */
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #d56e17; /* Темніший оранжевий при наведенні */
+}
+
+/* Стилі для інпутів у модальному вікні */
+.modal input {
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+}
+
+.modal input:focus {
+  outline: none;
+  border-color: #f68e1f; /* Оранжева обводка при фокусуванні */
+}
+
+
